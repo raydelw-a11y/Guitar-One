@@ -27,7 +27,7 @@ import MetronomeAndTabCreator from './components/MetronomeAndTabCreator';
 import './App.css';
 
 /* global __BUILD_TIMESTAMP__ */
-const FALLBACK_TIMESTAMP = '11:18 AM - 11/05/2026';
+const FALLBACK_TIMESTAMP = '11:44 AM - 11/05/2026';
 const BUILD_TIMESTAMP =
   typeof __BUILD_TIMESTAMP__ !== 'undefined'
     ? __BUILD_TIMESTAMP__
