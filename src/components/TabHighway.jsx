@@ -14,11 +14,16 @@ import {
   Sliders,
   Hand,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   Music,
   CheckCircle,
+  ListMusic,
 } from 'lucide-react';
 import { STRING_INFO, getNoteForStringFret } from '../data/musicData';
 import { audioEngine } from '../utils/audioEngine';
+
+const PLAYHEAD_LEFT_PCT = 20; // Gives clean breathing room for string badges on mobile & tablet
 
 export default function TabHighway({
   lang,
@@ -34,9 +39,10 @@ export default function TabHighway({
   onCompleteSong,
 }) {
   const [filterStyle, setFilterStyle] = useState('all');
+  const [mobileSongListOpen, setMobileSongListOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentBeat, setCurrentBeat] = useState(0);
-  const [tempoScale, setTempoScale] = useState(1.0); // 0.5x to 1.25x
+  const [tempoScale, setTempoScale] = useState(1.0); // 0.4x to 1.25x
   const [practiceWaitMode, setPracticeWaitMode] = useState(false);
   const [autoSynthGuide, setAutoSynthGuide] = useState(true);
   const [drumBacking, setDrumBacking] = useState(true);
@@ -143,7 +149,6 @@ export default function TabHighway({
     );
     setActiveNeckFlash({ string: stringNumber, fret: fretNumber });
 
-    // Check if there is an active or waiting note on the highway near currentBeat
     const beatNow = currentBeatRef.current;
     const candidate = selectedSong.notes.find(
       (n) =>
@@ -182,7 +187,6 @@ export default function TabHighway({
       const keyNum = parseInt(e.key, 10);
       if (keyNum >= 1 && keyNum <= 6) {
         const beatNow = currentBeatRef.current;
-        // Find upcoming note on that string to make keyboard jamming intuitive
         const upcomingOnString = selectedSong.notes.find(
           (n) =>
             !hitStatusesRef.current[n.id] &&
@@ -205,7 +209,6 @@ export default function TabHighway({
     const tick = (timestamp) => {
       if (!active) return;
 
-      // 1. Poll live microphone pitch if enabled
       let livePitch = null;
       if (isMicActive) {
         livePitch = audioEngine.getDetectedPitch();
@@ -225,7 +228,6 @@ export default function TabHighway({
         const beatsPerSec = effectiveBpm / 60;
         let nextBeat = currentBeatRef.current + deltaSec * beatsPerSec;
 
-        // Check if Practice "Wait for Note" mode should pause on an unhit note
         const unhitAtPlayhead = selectedSong.notes.find(
           (n) =>
             !hitStatusesRef.current[n.id] &&
@@ -233,13 +235,11 @@ export default function TabHighway({
             n.beat >= currentBeatRef.current - 0.35
         );
 
-        // Check if microphone matches any note in the hit window
         if (livePitch) {
           const micCandidate = selectedSong.notes.find((n) => {
             if (hitStatusesRef.current[n.id]) return false;
             if (Math.abs(n.beat - nextBeat) > 0.65) return false;
             const target = getNoteForStringFret(n.string, n.fret);
-            // Match exact MIDI (±1 semitone tolerance) or matching pitchClass
             return (
               Math.abs(target.midi - livePitch.midi) <= 1 ||
               target.pitchClass === livePitch.pitchClass
@@ -250,8 +250,11 @@ export default function TabHighway({
           }
         }
 
-        if (practiceWaitMode && unhitAtPlayhead && !hitStatusesRef.current[unhitAtPlayhead.id]) {
-          // Pause at the note until user plays it on mic or clicks it on fretboard
+        if (
+          practiceWaitMode &&
+          unhitAtPlayhead &&
+          !hitStatusesRef.current[unhitAtPlayhead.id]
+        ) {
           nextBeat = unhitAtPlayhead.beat;
           setWaitingNote(unhitAtPlayhead);
           if (!autoPlayedRef.current[unhitAtPlayhead.id] && autoSynthGuide) {
@@ -265,7 +268,6 @@ export default function TabHighway({
         } else {
           setWaitingNote(null);
 
-          // Drum backing beat pulse
           const wholeBeat = Math.floor(nextBeat);
           if (
             drumBacking &&
@@ -280,28 +282,19 @@ export default function TabHighway({
             }
           }
 
-          // Check notes crossing the playhead
           selectedSong.notes.forEach((n) => {
-            if (
-              n.beat <= nextBeat &&
-              !autoPlayedRef.current[n.id]
-            ) {
+            if (n.beat <= nextBeat && !autoPlayedRef.current[n.id]) {
               autoPlayedRef.current[n.id] = true;
               if (autoSynthGuide) {
                 audioEngine.playStringFret(n.string, n.fret, guitarTone);
                 setActiveNeckFlash({ string: n.string, fret: n.fret });
-                // In Play-Along mode (when mic is off and wait mode is off), credit play-along hits
                 if (!isMicActive && !hitStatusesRef.current[n.id]) {
                   triggerNoteHit(n, 'GREAT');
                 }
               }
             }
 
-            // Mark missed notes that passed well behind playhead
-            if (
-              n.beat < nextBeat - 0.65 &&
-              !hitStatusesRef.current[n.id]
-            ) {
+            if (n.beat < nextBeat - 0.65 && !hitStatusesRef.current[n.id]) {
               hitStatusesRef.current = {
                 ...hitStatusesRef.current,
                 [n.id]: 'missed',
@@ -321,7 +314,6 @@ export default function TabHighway({
         currentBeatRef.current = nextBeat;
         setCurrentBeat(nextBeat);
 
-        // Check for end of track
         if (nextBeat >= maxSongBeat) {
           setIsPlaying(false);
           setSessionFinished(true);
@@ -380,7 +372,6 @@ export default function TabHighway({
     processedCount > 0 ? Math.round((hitCount / processedCount) * 100) : 100;
   const multiplier = Math.min(4, 1 + Math.floor(combo / 4));
 
-  // Find next upcoming note to highlight on the interactive neck
   const nextTargetNote = useMemo(() => {
     if (waitingNote) return waitingNote;
     return selectedSong?.notes?.find(
@@ -390,8 +381,36 @@ export default function TabHighway({
 
   return (
     <div className="highway-layout">
-      {/* Left Sidebar: Song & Riff Selector */}
-      <aside className="song-sidebar">
+      {/* Mobile/Tablet Compact Track Switcher Button (hidden on wide desktop) */}
+      <div className="mobile-song-picker-bar">
+        <button
+          type="button"
+          className="mobile-song-toggle-btn"
+          onClick={() => setMobileSongListOpen(!mobileSongListOpen)}
+        >
+          <div className="mobile-song-toggle-left">
+            <ListMusic size={18} className="text-amber" />
+            <div>
+              <span className="mobile-song-picker-label">
+                {t.highway.selectSong} ({filteredSongs.length})
+              </span>
+              <strong className="mobile-song-picker-current">
+                {lang === 'en' ? selectedSong.titleEn : selectedSong.titleEs}
+              </strong>
+            </div>
+          </div>
+          {mobileSongListOpen ? (
+            <ChevronUp size={18} />
+          ) : (
+            <ChevronDown size={18} />
+          )}
+        </button>
+      </div>
+
+      {/* Left Sidebar: Song & Riff Selector (Collapsible on Mobile/Tablet, Always open on Desktop) */}
+      <aside
+        className={`song-sidebar ${mobileSongListOpen ? 'mobile-open' : ''}`}
+      >
         <div className="sidebar-header">
           <h3>
             <Music size={17} />
@@ -425,7 +444,10 @@ export default function TabHighway({
                 key={song.id}
                 type="button"
                 className={`song-card-item ${isSelected ? 'selected' : ''}`}
-                onClick={() => onSelectSong(song)}
+                onClick={() => {
+                  onSelectSong(song);
+                  setMobileSongListOpen(false);
+                }}
               >
                 <div className="song-card-top">
                   <span className={`song-style-badge ${song.style}`}>
@@ -476,7 +498,7 @@ export default function TabHighway({
             <div className="hud-stat-box">
               <span className="hud-label">{t.highway.combo}</span>
               <span className="hud-value green">
-                <Flame size={15} /> {combo} ({multiplier}x)
+                <Flame size={14} /> {combo} ({multiplier}x)
               </span>
             </div>
             <div className="hud-stat-box">
@@ -540,9 +562,7 @@ export default function TabHighway({
               onClick={onToggleMic}
             >
               {isMicActive ? <Mic size={15} /> : <MicOff size={15} />}
-              <span>
-                {isMicActive ? t.nav.micActive : t.nav.micOff}
-              </span>
+              <span>{isMicActive ? t.nav.micActive : t.nav.micOff}</span>
             </button>
 
             <button
@@ -576,14 +596,13 @@ export default function TabHighway({
               max="1.25"
               step="0.05"
               value={tempoScale}
-              onChange={(e) => setTempoScale( parseFloat(e.target.value) )}
+              onChange={(e) => setTempoScale(parseFloat(e.target.value))}
             />
           </div>
         </div>
 
         {/* THE 6-STRING COLOR-CODED SCROLLING TAB HIGHWAY */}
         <div className="tab-highway-canvas">
-          {/* Hit Feedback Floating Badge */}
           {lastFeedback && (
             <div
               key={lastFeedback.key}
@@ -593,10 +612,9 @@ export default function TabHighway({
             </div>
           )}
 
-          {/* Waiting for Note Prompt Banner (Yousician Practice Mode) */}
           {waitingNote && (
             <div className="waiting-note-banner">
-              <Sparkles size={16} />
+              <Sparkles size={15} />
               <span>
                 {t.highway.waitingForNote} {waitingNote.string} •{' '}
                 {waitingNote.fret === 0
@@ -611,7 +629,7 @@ export default function TabHighway({
           {Array.from({ length: Math.ceil(maxSongBeat) + 2 }).map((_, beatIdx) => {
             const beatDelta = beatIdx - currentBeat;
             if (beatDelta < -1.5 || beatDelta > 8) return null;
-            const leftPercent = 18 + beatDelta * 11.5;
+            const leftPercent = PLAYHEAD_LEFT_PCT + beatDelta * 11.2;
             return (
               <div
                 key={beatIdx}
@@ -623,11 +641,11 @@ export default function TabHighway({
             );
           })}
 
-          {/* Playhead Target Laser Line at 18% */}
-          <div className="highway-playhead-laser">
-            <div className="playhead-top-cap" />
-            <div className="playhead-bottom-cap" />
-          </div>
+          {/* Playhead Target Laser Line */}
+          <div
+            className="highway-playhead-laser"
+            style={{ left: `${PLAYHEAD_LEFT_PCT}%` }}
+          />
 
           {/* 6 Horizontal Guitar Strings (1 = High e at Top, 6 = Low E at Bottom) */}
           <div className="highway-strings-container">
@@ -635,7 +653,6 @@ export default function TabHighway({
               const isTargetString = nextTargetNote?.string === str.string;
               return (
                 <div key={str.string} className="highway-string-lane">
-                  {/* Left String Peg Badge */}
                   <button
                     type="button"
                     className={`string-lane-badge ${isTargetString ? 'pulsing' : ''}`}
@@ -655,7 +672,6 @@ export default function TabHighway({
                     <span className="string-note-code">{str.name}</span>
                   </button>
 
-                  {/* Physical String Line */}
                   <div
                     className="highway-string-wire"
                     style={{
@@ -664,23 +680,22 @@ export default function TabHighway({
                     }}
                   />
 
-                  {/* Playhead Target Ring on each string */}
                   <div
                     className="playhead-string-ring"
                     style={{
+                      left: `calc(${PLAYHEAD_LEFT_PCT}% - 11px)`,
                       borderColor: str.color,
                       boxShadow: isTargetString ? `0 0 16px ${str.color}` : 'none',
                     }}
                   />
 
-                  {/* Scrolling Notes on this String */}
                   {selectedSong.notes
                     .filter((n) => n.string === str.string)
                     .map((note) => {
                       const beatDelta = note.beat - currentBeat;
                       if (beatDelta < -1.4 || beatDelta > 7.5) return null;
-                      const leftPercent = 18 + beatDelta * 11.5;
-                      const status = hitStatuses[note.id]; // 'hit' | 'missed' | undefined
+                      const leftPercent = PLAYHEAD_LEFT_PCT + beatDelta * 11.2;
+                      const status = hitStatuses[note.id];
                       const noteInfo = getNoteForStringFret(
                         note.string,
                         note.fret
@@ -731,13 +746,13 @@ export default function TabHighway({
           <span className="keyboard-shortcut-pill">{t.highway.keyboardHint}</span>
         </div>
 
-        {/* LIVE INTERACTIVE 15-FRET GUITAR NECK (Click any string/fret to play & score) */}
+        {/* LIVE INTERACTIVE 15-FRET GUITAR NECK */}
         <div className="interactive-neck-panel">
           <div className="neck-panel-header">
             <span>{t.highway.interactiveNeck}</span>
             {nextTargetNote && (
               <span className="next-target-pill">
-                Next: String {nextTargetNote.string} • Fret{' '}
+                Next: Str {nextTargetNote.string} • Fret{' '}
                 {nextTargetNote.fret} (
                 {
                   getNoteForStringFret(
@@ -750,78 +765,80 @@ export default function TabHighway({
             )}
           </div>
 
-          <div className="guitar-fretboard-grid">
-            {/* Fret Numbers Row (0 to 15) */}
-            <div className="fret-numbers-row">
-              <div className="fret-num-cell string-label-col">Str</div>
-              {Array.from({ length: 16 }).map((_, fretIdx) => (
-                <div
-                  key={fretIdx}
-                  className={`fret-num-cell ${
-                    [3, 5, 7, 9, 12, 15].includes(fretIdx) ? 'inlay-fret' : ''
-                  }`}
-                >
-                  {fretIdx === 0 ? 'Open' : fretIdx}
+          <div className="guitar-fretboard-scroll-wrap">
+            <div className="guitar-fretboard-grid">
+              <div className="fret-numbers-row">
+                <div className="fret-num-cell string-label-col">Str</div>
+                {Array.from({ length: 16 }).map((_, fretIdx) => (
+                  <div
+                    key={fretIdx}
+                    className={`fret-num-cell ${
+                      [3, 5, 7, 9, 12, 15].includes(fretIdx) ? 'inlay-fret' : ''
+                    }`}
+                  >
+                    {fretIdx === 0 ? 'Open' : fretIdx}
+                  </div>
+                ))}
+              </div>
+
+              {STRING_INFO.map((str) => (
+                <div key={str.string} className="fretboard-string-row">
+                  <div
+                    className="fret-string-name"
+                    style={{ color: str.color }}
+                  >
+                    {str.string}:{str.name}
+                  </div>
+                  {Array.from({ length: 16 }).map((_, fretIdx) => {
+                    const isTarget =
+                      nextTargetNote &&
+                      nextTargetNote.string === str.string &&
+                      nextTargetNote.fret === fretIdx;
+                    const isFlashing =
+                      activeNeckFlash &&
+                      activeNeckFlash.string === str.string &&
+                      activeNeckFlash.fret === fretIdx;
+                    const noteData = getNoteForStringFret(str.string, fretIdx);
+
+                    return (
+                      <button
+                        key={fretIdx}
+                        type="button"
+                        className={`fret-cell ${
+                          fretIdx === 0 ? 'nut-cell' : ''
+                        } ${isTarget ? 'target-fret' : ''} ${
+                          isFlashing ? 'flashing-fret' : ''
+                        }`}
+                        onClick={() => handleManualPluck(str.string, fretIdx)}
+                      >
+                        <span
+                          className="neck-wire"
+                          style={{
+                            backgroundColor: str.color,
+                            height: `${1 + str.string * 0.35}px`,
+                          }}
+                        />
+                        {(isTarget || isFlashing || fretIdx === 0) && (
+                          <span
+                            className="fret-note-dot"
+                            style={{
+                              backgroundColor: isTarget
+                                ? str.color
+                                : isFlashing
+                                ? '#10b981'
+                                : 'rgba(30, 41, 59, 0.9)',
+                              borderColor: str.color,
+                            }}
+                          >
+                            {isTarget ? fretIdx : noteData.pitchClass}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               ))}
             </div>
-
-            {/* 6 Strings on the Neck */}
-            {STRING_INFO.map((str) => (
-              <div key={str.string} className="fretboard-string-row">
-                <div
-                  className="fret-string-name"
-                  style={{ color: str.color }}
-                >
-                  {str.string}:{str.name}
-                </div>
-                {Array.from({ length: 16 }).map((_, fretIdx) => {
-                  const isTarget =
-                    nextTargetNote &&
-                    nextTargetNote.string === str.string &&
-                    nextTargetNote.fret === fretIdx;
-                  const isFlashing =
-                    activeNeckFlash &&
-                    activeNeckFlash.string === str.string &&
-                    activeNeckFlash.fret === fretIdx;
-                  const noteData = getNoteForStringFret(str.string, fretIdx);
-
-                  return (
-                    <button
-                      key={fretIdx}
-                      type="button"
-                      className={`fret-cell ${fretIdx === 0 ? 'nut-cell' : ''} ${
-                        isTarget ? 'target-fret' : ''
-                      } ${isFlashing ? 'flashing-fret' : ''}`}
-                      onClick={() => handleManualPluck(str.string, fretIdx)}
-                    >
-                      <span
-                        className="neck-wire"
-                        style={{
-                          backgroundColor: str.color,
-                          height: `${1 + str.string * 0.35}px`,
-                        }}
-                      />
-                      {(isTarget || isFlashing || fretIdx === 0) && (
-                        <span
-                          className="fret-note-dot"
-                          style={{
-                            backgroundColor: isTarget
-                              ? str.color
-                              : isFlashing
-                              ? '#10b981'
-                              : 'rgba(30, 41, 59, 0.9)',
-                            borderColor: str.color,
-                          }}
-                        >
-                          {isTarget ? fretIdx : noteData.pitchClass}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            ))}
           </div>
         </div>
 

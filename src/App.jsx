@@ -27,7 +27,7 @@ import MetronomeAndTabCreator from './components/MetronomeAndTabCreator';
 import './App.css';
 
 /* global __BUILD_TIMESTAMP__ */
-const FALLBACK_TIMESTAMP = '11:44 AM - 11/05/2026';
+const FALLBACK_TIMESTAMP = '11:53 AM - 11/05/2026';
 const BUILD_TIMESTAMP =
   typeof __BUILD_TIMESTAMP__ !== 'undefined'
     ? __BUILD_TIMESTAMP__
@@ -97,7 +97,6 @@ export default function App() {
     localStorage.setItem('guitar_one_accounts', JSON.stringify(accounts));
   }, [accounts]);
 
-  // Combine built-in curriculum with user's custom tabs
   const allSongs = useMemo(() => {
     const custom = currentUser?.customTabs || [];
     return [...SONGS_LIBRARY, ...custom];
@@ -118,6 +117,14 @@ export default function App() {
       0
     );
   }, [currentUser]);
+
+  const navItems = [
+    { id: 'highway', label: t.nav.highway, icon: PlayCircle },
+    { id: 'learn', label: t.nav.learnPath, icon: Compass },
+    { id: 'tuner', label: t.nav.tuner, icon: Radio },
+    { id: 'lab', label: t.nav.chordsScales, icon: Layers },
+    { id: 'tools', label: t.nav.metronomeTabs, icon: Clock },
+  ];
 
   const handleLoginSuccess = (account) => {
     setCurrentUser(account);
@@ -210,7 +217,6 @@ export default function App() {
     );
   };
 
-  // Show Account Creation & Login screen when not signed in
   if (!currentUser) {
     return (
       <AuthScreen
@@ -231,7 +237,7 @@ export default function App() {
       <header className="studio-navbar">
         <div className="navbar-brand" onClick={() => setActiveTab('highway')}>
           <div className="navbar-logo-icon">
-            <Guitar size={22} />
+            <Guitar size={20} />
           </div>
           <div>
             <span className="navbar-title">{t.appName}</span>
@@ -239,15 +245,9 @@ export default function App() {
           </div>
         </div>
 
-        {/* Center Module Navigation Tabs */}
-        <nav className="navbar-tabs">
-          {[
-            { id: 'highway', label: t.nav.highway, icon: PlayCircle },
-            { id: 'learn', label: t.nav.learnPath, icon: Compass },
-            { id: 'tuner', label: t.nav.tuner, icon: Radio },
-            { id: 'lab', label: t.nav.chordsScales, icon: Layers },
-            { id: 'tools', label: t.nav.metronomeTabs, icon: Clock },
-          ].map((item) => {
+        {/* Center Module Navigation Tabs (Desktop) */}
+        <nav className="navbar-tabs desktop-only-nav">
+          {navItems.map((item) => {
             const IconComponent = item.icon;
             return (
               <button
@@ -267,7 +267,6 @@ export default function App() {
 
         {/* Right Studio Controls: Guitar Tone, Mic, XP, Language, Account */}
         <div className="navbar-right-controls">
-          {/* Tone Selector (Acoustic / Clean / Overdrive) */}
           <div className="tone-selector-pill">
             <Volume2 size={14} />
             <select
@@ -285,20 +284,20 @@ export default function App() {
             </select>
           </div>
 
-          {/* Live Microphone Pill */}
           <button
             type="button"
             className={`nav-mic-pill ${isMicActive ? 'live' : ''}`}
             onClick={handleToggleMic}
           >
             {isMicActive ? <Mic size={14} /> : <MicOff size={14} />}
-            <span>{isMicActive ? t.nav.micActive : t.nav.micOff}</span>
+            <span className="mic-pill-text">
+              {isMicActive ? t.nav.micActive : t.nav.micOff}
+            </span>
           </button>
 
-          {/* User Stats & Profile */}
           <div className="user-stats-pills">
             <span className="stat-chip xp">
-              <Sparkles size={13} /> {currentUser.xp} {t.nav.xp}
+              <Sparkles size={13} /> {currentUser.xp}
             </span>
             <span className="stat-chip stars">
               <Star size={13} /> {totalStars}
@@ -308,7 +307,6 @@ export default function App() {
             </span>
           </div>
 
-          {/* Language Switcher EN / ES */}
           <button
             type="button"
             className="lang-toggle-btn compact"
@@ -318,7 +316,6 @@ export default function App() {
             <span>{lang.toUpperCase()}</span>
           </button>
 
-          {/* User Avatar & Logout */}
           <div className="user-profile-badge">
             <span className="user-avatar-sm">
               {currentUser.name.charAt(0).toUpperCase()}
@@ -396,6 +393,26 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Mobile & Tablet Fixed Bottom App Navigation Bar */}
+      <nav className="mobile-bottom-nav">
+        {navItems.map((item) => {
+          const IconComponent = item.icon;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={`mobile-nav-btn ${
+                activeTab === item.id ? 'active' : ''
+              }`}
+              onClick={() => setActiveTab(item.id)}
+            >
+              <IconComponent size={19} />
+              <span>{item.label}</span>
+            </button>
+          );
+        })}
+      </nav>
 
       {/* Corner Timestamp Indicator required by Global Rule */}
       <div className="corner-timestamp">

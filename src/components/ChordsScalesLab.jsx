@@ -468,84 +468,88 @@ export default function ChordsScalesLab({ lang, t, guitarTone }) {
           </div>
 
           {/* 15-Fret Interactive Scale Fretboard */}
-          <div className="guitar-fretboard-grid scale-neck-large">
-            <div className="fret-numbers-row">
-              <div className="fret-num-cell string-label-col">Str</div>
-              {Array.from({ length: 16 }).map((_, fretIdx) => (
-                <div
-                  key={fretIdx}
-                  className={`fret-num-cell ${
-                    [3, 5, 7, 9, 12, 15].includes(fretIdx) ? 'inlay-fret' : ''
-                  }`}
-                >
-                  {fretIdx === 0 ? 'Open' : fretIdx}
+          <div className="guitar-fretboard-scroll-wrap">
+            <div className="guitar-fretboard-grid scale-neck-large">
+              <div className="fret-numbers-row">
+                <div className="fret-num-cell string-label-col">Str</div>
+                {Array.from({ length: 16 }).map((_, fretIdx) => (
+                  <div
+                    key={fretIdx}
+                    className={`fret-num-cell ${
+                      [3, 5, 7, 9, 12, 15].includes(fretIdx) ? 'inlay-fret' : ''
+                    }`}
+                  >
+                    {fretIdx === 0 ? 'Open' : fretIdx}
+                  </div>
+                ))}
+              </div>
+
+              {STRING_INFO.map((str) => (
+                <div key={str.string} className="fretboard-string-row">
+                  <div
+                    className="fret-string-name"
+                    style={{ color: str.color }}
+                  >
+                    {str.string}:{str.name}
+                  </div>
+                  {Array.from({ length: 16 }).map((_, fretIdx) => {
+                    const noteInfo = getNoteForStringFret(str.string, fretIdx);
+                    const isInScale = scalePitchClasses.includes(
+                      noteInfo.pitchClass
+                    );
+                    const isRoot = noteInfo.pitchClass === rootNote;
+                    const isPlayingNow =
+                      playingScaleNote &&
+                      playingScaleNote.string === str.string &&
+                      playingScaleNote.fret === fretIdx;
+
+                    return (
+                      <button
+                        key={fretIdx}
+                        type="button"
+                        className={`fret-cell ${
+                          fretIdx === 0 ? 'nut-cell' : ''
+                        } ${isPlayingNow ? 'flashing-fret' : ''}`}
+                        onClick={() =>
+                          audioEngine.playStringFret(
+                            str.string,
+                            fretIdx,
+                            guitarTone
+                          )
+                        }
+                      >
+                        <span
+                          className="neck-wire"
+                          style={{
+                            backgroundColor: str.color,
+                            height: `${1 + str.string * 0.35}px`,
+                          }}
+                        />
+                        {isInScale && (
+                          <span
+                            className={`fret-note-dot ${
+                              isRoot ? 'root-dot' : 'scale-dot'
+                            }`}
+                            style={{
+                              backgroundColor: isPlayingNow
+                                ? '#10b981'
+                                : isRoot
+                                ? '#f59e0b'
+                                : str.color,
+                              borderColor: isRoot
+                                ? '#fff'
+                                : 'rgba(255,255,255,0.4)',
+                            }}
+                          >
+                            {noteInfo.pitchClass}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               ))}
             </div>
-
-            {STRING_INFO.map((str) => (
-              <div key={str.string} className="fretboard-string-row">
-                <div
-                  className="fret-string-name"
-                  style={{ color: str.color }}
-                >
-                  {str.string}:{str.name}
-                </div>
-                {Array.from({ length: 16 }).map((_, fretIdx) => {
-                  const noteInfo = getNoteForStringFret(str.string, fretIdx);
-                  const isInScale = scalePitchClasses.includes(
-                    noteInfo.pitchClass
-                  );
-                  const isRoot = noteInfo.pitchClass === rootNote;
-                  const isPlayingNow =
-                    playingScaleNote &&
-                    playingScaleNote.string === str.string &&
-                    playingScaleNote.fret === fretIdx;
-
-                  return (
-                    <button
-                      key={fretIdx}
-                      type="button"
-                      className={`fret-cell ${
-                        fretIdx === 0 ? 'nut-cell' : ''
-                      } ${isPlayingNow ? 'flashing-fret' : ''}`}
-                      onClick={() =>
-                        audioEngine.playStringFret(
-                          str.string,
-                          fretIdx,
-                          guitarTone
-                        )
-                      }
-                    >
-                      <span
-                        className="neck-wire"
-                        style={{
-                          backgroundColor: str.color,
-                          height: `${1 + str.string * 0.35}px`,
-                        }}
-                      />
-                      {isInScale && (
-                        <span
-                          className={`fret-note-dot ${
-                            isRoot ? 'root-dot' : 'scale-dot'
-                          }`}
-                          style={{
-                            backgroundColor: isPlayingNow
-                              ? '#10b981'
-                              : isRoot
-                              ? '#f59e0b'
-                              : str.color,
-                            borderColor: isRoot ? '#fff' : 'rgba(255,255,255,0.4)',
-                          }}
-                        >
-                          {noteInfo.pitchClass}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            ))}
           </div>
         </div>
       )}

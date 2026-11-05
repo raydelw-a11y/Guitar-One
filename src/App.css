@@ -1,7 +1,13 @@
 /* ==========================================================
-   GUITAR ONE STUDIO - COMPLETE STYLESHEET
-   Inspired by Yousician & Gibson App
+   GUITAR ONE STUDIO - COMPLETE RESPONSIVE STYLESHEET
+   Desktop, Tablet (iPad) & Mobile (iOS / Android)
    ========================================================== */
+
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
 
 /* Corner Timestamp required by Global Rule */
 .corner-timestamp {
@@ -10,11 +16,11 @@
   right: 10px;
   font-size: 10px;
   letter-spacing: 0.02em;
-  color: rgba(148, 163, 184, 0.65);
-  background: rgba(7, 9, 15, 0.78);
+  color: rgba(148, 163, 184, 0.72);
+  background: rgba(7, 9, 15, 0.85);
   padding: 2px 7px;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 9999;
   pointer-events: none;
 }
@@ -24,12 +30,13 @@
    ========================================================== */
 .auth-wrapper {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px 32px 36px;
+  padding: 20px 28px 36px;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   background: radial-gradient(circle at 18% 20%, rgba(245, 158, 11, 0.12), transparent 45%),
               radial-gradient(circle at 82% 80%, rgba(168, 85, 247, 0.12), transparent 45%),
               var(--bg-obsidian);
@@ -39,6 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
   max-width: 1180px;
   width: 100%;
   margin: 0 auto 16px;
@@ -48,12 +56,12 @@
 .private-access-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
+  gap: 7px;
+  padding: 6px 13px;
   border-radius: 999px;
   background: rgba(245, 158, 11, 0.1);
   border: 1px solid rgba(245, 158, 11, 0.3);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   color: #fbbf24;
 }
@@ -61,16 +69,17 @@
 .lang-toggle-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 14px;
+  gap: 6px;
+  padding: 7px 13px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.18s ease;
+  flex-shrink: 0;
 }
 
 .lang-toggle-btn:hover {
@@ -84,7 +93,7 @@
   margin: auto;
   display: grid;
   grid-template-columns: 1.1fr 0.95fr;
-  gap: 40px;
+  gap: 36px;
   align-items: center;
   z-index: 2;
 }
@@ -92,29 +101,31 @@
 .auth-brand-panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
+  min-width: 0;
 }
 
 .brand-logo-row {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
 .brand-icon-box {
-  width: 62px;
-  height: 62px;
+  width: 58px;
+  height: 58px;
   border-radius: 16px;
   background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #090d16;
+  flex-shrink: 0;
   box-shadow: 0 10px 28px rgba(245, 158, 11, 0.35);
 }
 
 .brand-title {
-  font-size: 38px;
+  font-size: 36px;
   font-weight: 800;
   letter-spacing: -0.02em;
   background: linear-gradient(90deg, #ffffff 0%, #fde68a 100%);
@@ -124,21 +135,21 @@
 
 .brand-subtitle {
   color: var(--text-secondary);
-  font-size: 15px;
+  font-size: 14.5px;
   margin-top: 2px;
 }
 
 .brand-feature-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .brand-feature-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 14px 16px;
+  padding: 13px 15px;
   border-radius: 14px;
   background: rgba(21, 28, 44, 0.7);
   border: 1px solid var(--border-subtle);
@@ -157,12 +168,12 @@
 
 .brand-feature-item strong {
   display: block;
-  font-size: 14.5px;
+  font-size: 14px;
   margin-bottom: 3px;
 }
 
 .brand-feature-item p {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--text-secondary);
   line-height: 1.45;
 }
@@ -178,7 +189,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 12px;
+  font-size: 11.5px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-secondary);
@@ -219,6 +230,7 @@
   justify-content: center;
   font-weight: 700;
   font-size: 13px;
+  flex-shrink: 0;
 }
 
 .saved-acc-meta {
@@ -239,11 +251,12 @@
 
 /* Auth Form Card */
 .auth-card {
-  background: rgba(15, 20, 32, 0.92);
+  background: rgba(15, 20, 32, 0.94);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  padding: 28px;
+  padding: 26px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  min-width: 0;
 }
 
 .auth-tabs {
@@ -253,7 +266,7 @@
   background: rgba(7, 9, 15, 0.65);
   padding: 5px;
   border-radius: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .auth-tab {
@@ -278,26 +291,27 @@
 }
 
 .auth-card-header h2 {
-  font-size: 22px;
+  font-size: 21px;
   margin-bottom: 5px;
 }
 
 .auth-card-header p {
   font-size: 13px;
   color: var(--text-secondary);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 13px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .form-group label {
@@ -329,7 +343,7 @@
   border: none;
   outline: none;
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .form-group select,
@@ -340,8 +354,9 @@
   background: rgba(7, 9, 15, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--text-primary);
-  font-size: 13.5px;
+  font-size: 14px;
   outline: none;
+  width: 100%;
 }
 
 .form-row-2 {
@@ -417,25 +432,22 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px;
+  padding: 11px;
   border-radius: 10px;
-  background: rgba(168, 85, 247, 0.12);
-  border: 1px solid rgba(168, 85, 247, 0.35);
+  background: rgba(168, 85, 247, 0.14);
+  border: 1px solid rgba(168, 85, 247, 0.38);
   color: #e9d5ff;
   font-weight: 600;
   font-size: 13px;
   cursor: pointer;
 }
 
-.auth-demo-btn:hover {
-  background: rgba(168, 85, 247, 0.22);
-}
-
 /* ==========================================================
-   2. STUDIO HEADER & NAVIGATION SHELL
+   2. STUDIO HEADER & MOBILE BOTTOM NAVIGATION SHELL
    ========================================================== */
 .studio-app-shell {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -444,15 +456,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  padding: 10px 22px;
+  gap: 12px;
+  padding: 10px 20px;
   background: rgba(15, 20, 32, 0.95);
   border-bottom: 1px solid var(--border-subtle);
   position: sticky;
   top: 0;
   z-index: 50;
   backdrop-filter: blur(12px);
-  flex-wrap: wrap;
 }
 
 .navbar-brand {
@@ -460,37 +471,40 @@
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .navbar-logo-icon {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
   color: #090d16;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .navbar-title {
   font-weight: 800;
-  font-size: 18px;
+  font-size: 17px;
   display: block;
   line-height: 1.1;
 }
 
 .navbar-badge {
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: #fbbf24;
+  display: block;
 }
 
 .navbar-tabs {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: rgba(7, 9, 15, 0.65);
   padding: 4px;
   border-radius: 12px;
@@ -501,7 +515,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 8px 14px;
+  padding: 8px 13px;
   border-radius: 9px;
   border: none;
   background: transparent;
@@ -510,6 +524,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .nav-tab-item:hover {
@@ -524,14 +539,13 @@
 .navbar-right-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .tone-selector-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   padding: 5px 10px;
@@ -543,7 +557,7 @@
   background: transparent;
   border: none;
   color: var(--text-primary);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   outline: none;
   cursor: pointer;
@@ -558,14 +572,15 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 6px 11px;
   border-radius: 999px;
   border: 1px solid var(--border-subtle);
   background: var(--bg-card);
   color: var(--text-secondary);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .nav-mic-pill.live {
@@ -578,18 +593,19 @@
 .user-stats-pills {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .stat-chip {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 5px 9px;
+  padding: 5px 8px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   background: rgba(255, 255, 255, 0.05);
+  white-space: nowrap;
 }
 .stat-chip.xp { color: #c084fc; }
 .stat-chip.stars { color: #fbbf24; }
@@ -598,7 +614,7 @@
 .user-profile-badge {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   padding: 4px 8px;
   border-radius: 999px;
   background: var(--bg-card);
@@ -615,6 +631,7 @@
   justify-content: center;
   font-size: 12px;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .user-name-label {
@@ -635,12 +652,18 @@
   color: #ef4444;
 }
 
+/* Mobile Bottom Nav Dock (hidden on wide desktop) */
+.mobile-bottom-nav {
+  display: none;
+}
+
 .studio-main-content {
   flex: 1;
-  padding: 16px 22px 36px;
+  padding: 16px 20px 36px;
   max-width: 1560px;
   width: 100%;
   margin: 0 auto;
+  min-width: 0;
 }
 
 /* ==========================================================
@@ -648,9 +671,13 @@
    ========================================================== */
 .highway-layout {
   display: grid;
-  grid-template-columns: 310px 1fr;
+  grid-template-columns: 300px minmax(0, 1fr);
   gap: 18px;
   align-items: start;
+}
+
+.mobile-song-picker-bar {
+  display: none;
 }
 
 .song-sidebar {
@@ -662,6 +689,7 @@
   flex-direction: column;
   gap: 12px;
   max-height: calc(100vh - 105px);
+  min-width: 0;
 }
 
 .sidebar-header h3 {
@@ -690,6 +718,7 @@
   font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .filter-pill.active {
@@ -777,14 +806,15 @@
   flex-direction: column;
   gap: 12px;
   position: relative;
+  min-width: 0;
 }
 
 .highway-hud-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 18px;
+  gap: 14px;
+  padding: 13px 16px;
   background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
@@ -802,28 +832,26 @@
 }
 
 .song-active-info h2 {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 800;
 }
 
 .hud-stats-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(95px, auto));
+  gap: 10px;
 }
 
 .hud-stat-box {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  padding: 8px 14px;
-  min-width: 105px;
+  padding: 7px 12px;
 }
 
 .hud-label {
   display: block;
-  font-size: 10.5px;
+  font-size: 10px;
   text-transform: uppercase;
   color: var(--text-secondary);
   margin-bottom: 2px;
@@ -833,21 +861,22 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
+  white-space: nowrap;
 }
 .hud-value.amber { color: #fbbf24; }
 .hud-value.green { color: #34d399; }
 .hud-value.purple { color: #c084fc; }
-.hud-value.cyan { color: #22d3ee; font-size: 13.5px; }
+.hud-value.cyan { color: #22d3ee; font-size: 13px; }
 
 /* Transport Toolbar */
 .highway-transport-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 16px;
+  gap: 10px;
+  padding: 10px 14px;
   background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 14px;
@@ -857,23 +886,25 @@
 .transport-buttons {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   flex-wrap: wrap;
 }
 
 .play-btn-primary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
-  padding: 9px 18px;
+  padding: 9px 16px;
   border-radius: 10px;
   border: none;
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: #052e16;
   font-weight: 800;
-  font-size: 13.5px;
+  font-size: 13px;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+  white-space: nowrap;
 }
 
 .play-btn-primary.playing {
@@ -885,15 +916,17 @@
 .transport-toggle {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 8px 12px;
+  padding: 8px 11px;
   border-radius: 10px;
   border: 1px solid var(--border-subtle);
   background: var(--bg-card);
   color: var(--text-secondary);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .transport-toggle.active {
@@ -911,25 +944,26 @@
 .tempo-slider-box {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 12.5px;
+  gap: 8px;
+  font-size: 12px;
   color: var(--text-secondary);
 }
 
 .tempo-slider-box input[type='range'] {
-  width: 115px;
+  width: 110px;
   accent-color: var(--gibson-gold);
 }
 
 /* THE 6-STRING SCROLLING CANVAS */
 .tab-highway-canvas {
   position: relative;
-  height: 315px;
+  height: 305px;
   background: linear-gradient(180deg, #0b101d 0%, #11182b 50%, #0b101d 100%);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
   overflow: hidden;
   box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.75);
+  touch-action: manipulation;
 }
 
 .highway-beat-line {
@@ -953,7 +987,6 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 18%;
   width: 3px;
   background: linear-gradient(180deg, #f59e0b, #10b981, #f59e0b);
   box-shadow: 0 0 18px rgba(245, 158, 11, 0.8);
@@ -967,12 +1000,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 14px 0;
+  padding: 12px 0;
 }
 
 .highway-string-lane {
   position: relative;
-  height: 44px;
+  height: 42px;
   display: flex;
   align-items: center;
 }
@@ -980,11 +1013,11 @@
 .string-lane-badge {
   position: relative;
   z-index: 10;
-  margin-left: 12px;
+  margin-left: 10px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px 4px 5px;
+  gap: 5px;
+  padding: 3px 9px 3px 4px;
   border-radius: 999px;
   background: rgba(7, 9, 15, 0.92);
   border: 1.5px solid;
@@ -993,19 +1026,19 @@
 }
 
 .string-num-circle {
-  width: 20px;
-  height: 20px;
+  width: 19px;
+  height: 19px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 800;
   color: #07090f;
 }
 
 .string-note-code {
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
 }
 
@@ -1020,9 +1053,8 @@
 
 .playhead-string-ring {
   position: absolute;
-  left: calc(18% - 11px);
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 2px solid;
   background: rgba(7, 9, 15, 0.65);
@@ -1034,15 +1066,15 @@
   position: absolute;
   transform: translate(-50%, -50%);
   top: 50%;
-  min-width: 46px;
-  height: 34px;
-  padding: 0 9px;
-  border-radius: 10px;
+  min-width: 44px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 9px;
   border: 2px solid rgba(255, 255, 255, 0.85);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 4px;
   color: #07090f;
   font-weight: 900;
   cursor: pointer;
@@ -1050,17 +1082,13 @@
   transition: transform 0.1s ease;
 }
 
-.highway-note-gem:hover {
-  transform: translate(-50%, -50%) scale(1.1);
-}
-
 .gem-fret-number {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 900;
 }
 
 .gem-note-sub {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 700;
   opacity: 0.85;
   background: rgba(255, 255, 255, 0.35);
@@ -1070,13 +1098,13 @@
 
 .hit-feedback-badge {
   position: absolute;
-  top: 14px;
-  left: 22%;
+  top: 12px;
+  left: 24%;
   z-index: 25;
-  padding: 6px 16px;
+  padding: 5px 14px;
   border-radius: 999px;
   font-weight: 900;
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 0.05em;
   animation: popUpFade 0.65s ease forwards;
 }
@@ -1098,19 +1126,20 @@
 
 .waiting-note-banner {
   position: absolute;
-  top: 12px;
-  right: 16px;
+  top: 10px;
+  right: 12px;
   z-index: 25;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+  gap: 6px;
+  padding: 7px 13px;
   border-radius: 999px;
   background: rgba(245, 158, 11, 0.95);
   color: #090d16;
   font-weight: 800;
-  font-size: 13px;
+  font-size: 12px;
   box-shadow: 0 0 24px rgba(245, 158, 11, 0.6);
+  max-width: 72%;
 }
 
 /* Coach Tip Banner */
@@ -1118,12 +1147,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 16px;
+  gap: 10px;
+  padding: 10px 14px;
   border-radius: 12px;
   background: rgba(245, 158, 11, 0.08);
   border: 1px solid rgba(245, 158, 11, 0.25);
-  font-size: 13px;
+  font-size: 12.5px;
   flex-wrap: wrap;
 }
 
@@ -1136,26 +1165,30 @@
 }
 
 .keyboard-shortcut-pill {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-secondary);
 }
 
-/* INTERACTIVE 15-FRET GUITAR NECK */
+/* INTERACTIVE 15-FRET GUITAR NECK (Touch Scrollable with Pinned Left String Labels) */
 .interactive-neck-panel {
   background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
-  padding: 14px;
+  padding: 13px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .neck-panel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   margin-bottom: 10px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--text-secondary);
+  flex-wrap: wrap;
 }
 
 .next-target-pill {
@@ -1164,7 +1197,17 @@
   color: #e9d5ff;
   padding: 3px 10px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.guitar-fretboard-scroll-wrap,
+.chord-neck-visualizer {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
 }
 
 .guitar-fretboard-grid {
@@ -1173,18 +1216,20 @@
   background: #1a1412;
   border: 2px solid #3e2c23;
   border-radius: 12px;
-  overflow-x: auto;
+  min-width: 740px;
 }
 
 .fret-numbers-row,
 .fretboard-string-row {
   display: grid;
-  grid-template-columns: 74px repeat(16, minmax(44px, 1fr));
+  grid-template-columns: 68px repeat(16, minmax(42px, 1fr));
 }
 
 .chord-neck-visualizer .fret-numbers-row,
 .chord-neck-visualizer .fretboard-string-row {
-  grid-template-columns: 88px repeat(8, minmax(56px, 1fr));
+  display: grid;
+  grid-template-columns: 82px repeat(8, minmax(50px, 1fr));
+  min-width: 490px;
 }
 
 .fret-num-cell {
@@ -1197,15 +1242,25 @@
   border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.fret-num-cell.string-label-col {
+  position: sticky;
+  left: 0;
+  z-index: 6;
+  background: #0d0b0a;
+}
+
 .fret-num-cell.inlay-fret {
   color: #fbbf24;
 }
 
 .fret-string-name {
+  position: sticky;
+  left: 0;
+  z-index: 6;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 800;
   background: #0d0b0a;
   border-right: 3px solid #d6d3d1;
@@ -1213,7 +1268,7 @@
 
 .fret-cell {
   position: relative;
-  height: 34px;
+  height: 36px;
   background: linear-gradient(90deg, #271d18 0%, #32251f 100%);
   border: none;
   border-right: 2px solid #78716c;
@@ -1221,15 +1276,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 .fret-cell.nut-cell {
   background: #171311;
   border-right: 4px solid #e7e5e4;
-}
-
-.fret-cell:hover {
-  background: rgba(245, 158, 11, 0.22);
 }
 
 .neck-wire {
@@ -1266,21 +1318,22 @@
 .session-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(7, 9, 15, 0.82);
+  background: rgba(7, 9, 15, 0.84);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  padding: 16px;
+  z-index: 120;
 }
 
 .session-modal-card {
   background: var(--bg-panel);
   border: 1px solid var(--border-highlight);
   border-radius: 22px;
-  padding: 32px;
-  max-width: 460px;
-  width: 92%;
+  padding: 26px;
+  max-width: 440px;
+  width: 100%;
   text-align: center;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
 }
@@ -1290,8 +1343,8 @@
 .text-purple { color: #a855f7; }
 
 .stars-display-row {
-  margin: 16px 0;
-  font-size: 42px;
+  margin: 14px 0;
+  font-size: 40px;
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -1310,7 +1363,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .modal-stat {
@@ -1320,13 +1373,14 @@
   display: flex;
   flex-direction: column;
 }
-.modal-stat span { font-size: 11.5px; color: var(--text-secondary); }
-.modal-stat strong { font-size: 18px; color: #fff; }
+.modal-stat span { font-size: 11px; color: var(--text-secondary); }
+.modal-stat strong { font-size: 17px; color: #fff; }
 
 .modal-actions {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 /* ==========================================================
@@ -1336,29 +1390,29 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 18px 22px;
+  gap: 14px;
+  padding: 16px 20px;
   background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 
 .module-header-banner h2 {
-  font-size: 22px;
+  font-size: 21px;
   margin-bottom: 4px;
 }
 
 .module-header-banner p {
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
 .tuner-header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
@@ -1368,7 +1422,7 @@
   gap: 8px;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  padding: 8px 14px;
+  padding: 8px 12px;
   border-radius: 10px;
 }
 
@@ -1377,7 +1431,7 @@
   border: none;
   color: #fff;
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: 13px;
   outline: none;
 }
 .tuning-select-wrapper select option {
@@ -1387,14 +1441,15 @@
 .mic-cta-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 10px 18px;
+  padding: 10px 16px;
   border-radius: 10px;
   border: none;
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: #090d16;
   font-weight: 800;
-  font-size: 13.5px;
+  font-size: 13px;
   cursor: pointer;
 }
 
@@ -1406,7 +1461,7 @@
 .tuner-studio-grid {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
-  gap: 20px;
+  gap: 18px;
 }
 
 .tuner-gauge-card,
@@ -1414,14 +1469,17 @@
   background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  padding: 24px;
+  padding: 20px;
+  min-width: 0;
 }
 
 .tuner-mode-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 22px;
+  gap: 8px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
 }
 
 .locked-string-pill {
@@ -1434,7 +1492,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
 }
 
 .tuner-scale-marks {
@@ -1494,7 +1552,7 @@
 
 .tuner-big-note {
   text-align: center;
-  padding: 20px 36px;
+  padding: 18px 32px;
   border-radius: 20px;
   background: var(--bg-card);
   border: 2px solid var(--border-subtle);
@@ -1506,30 +1564,33 @@
 }
 
 .detected-note-main {
-  font-size: 56px;
+  font-size: 52px;
   font-weight: 900;
   line-height: 1;
 }
 
 .detected-freq-sub {
   margin-top: 6px;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
 .tuning-status-banner {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 8px;
-  padding: 10px 20px;
+  padding: 10px 18px;
   border-radius: 999px;
   font-weight: 800;
-  font-size: 13.5px;
+  font-size: 13px;
 }
 .tuning-status-banner.idle {
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
   font-weight: 500;
+  border-radius: 12px;
 }
 .tuning-status-banner.perfect {
   background: rgba(16, 185, 129, 0.2);
@@ -1548,35 +1609,37 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
 }
 
 .strum-all-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 14px;
+  padding: 7px 12px;
   border-radius: 9px;
   border: 1px solid var(--gibson-gold);
   background: rgba(245, 158, 11, 0.14);
   color: #fde68a;
   font-weight: 700;
-  font-size: 12.5px;
+  font-size: 12px;
   cursor: pointer;
 }
 
 .strings-pegs-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
 }
 
 .string-peg-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 14px;
+  gap: 10px;
+  padding: 9px 12px;
   border-radius: 12px;
   background: var(--bg-card);
   border: 1.5px solid var(--border-subtle);
@@ -1585,31 +1648,33 @@
 .peg-lock-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   background: transparent;
   border: none;
   color: #fff;
   cursor: pointer;
   text-align: left;
+  flex-shrink: 0;
 }
 
 .peg-number-badge {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
+  font-size: 12px;
   color: #07090f;
 }
 
 .peg-note-details strong {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
 }
 .peg-note-details span {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-secondary);
 }
 
@@ -1617,23 +1682,22 @@
   flex: 1;
   border-radius: 99px;
   opacity: 0.7;
+  min-width: 16px;
 }
 
 .play-ref-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 12px;
+  padding: 7px 11px;
   border-radius: 8px;
   border: 1px solid var(--border-subtle);
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
-}
-.play-ref-btn:hover {
-  border-color: var(--gibson-gold);
+  white-space: nowrap;
 }
 
 /* ==========================================================
@@ -1642,35 +1706,35 @@
 .stages-timeline {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .stage-block-card {
   background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  padding: 20px;
+  padding: 18px;
 }
 
 .stage-header-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .stage-number-pill {
-  padding: 5px 11px;
+  padding: 5px 10px;
   border-radius: 8px;
   background: linear-gradient(135deg, #f59e0b, #ea580c);
   color: #090d16;
   font-weight: 900;
-  font-size: 13px;
+  font-size: 12.5px;
 }
 
 .stage-lessons-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 14px;
 }
 
@@ -1678,7 +1742,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: 14px;
-  padding: 16px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1752,21 +1816,24 @@
 .lab-subtabs-bar {
   display: flex;
   gap: 10px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .lab-subtab-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 10px 20px;
+  padding: 10px 18px;
   border-radius: 12px;
   border: 1px solid var(--border-subtle);
   background: var(--bg-panel);
   color: var(--text-secondary);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13.5px;
   cursor: pointer;
+  flex: 1;
 }
 
 .lab-subtab-btn.active {
@@ -1777,7 +1844,7 @@
 
 .chords-lab-grid {
   display: grid;
-  grid-template-columns: 400px 1fr;
+  grid-template-columns: 380px minmax(0, 1fr);
   gap: 18px;
 }
 
@@ -1787,20 +1854,21 @@
   background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  padding: 20px;
+  padding: 18px;
+  min-width: 0;
 }
 
 .chord-buttons-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
   gap: 8px;
-  margin: 14px 0 20px;
-  max-height: 290px;
+  margin: 12px 0 18px;
+  max-height: 260px;
   overflow-y: auto;
 }
 
 .chord-tile-btn {
-  padding: 10px 8px;
+  padding: 9px 6px;
   border-radius: 10px;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
@@ -1813,13 +1881,14 @@
 }
 
 .chord-tile-btn strong {
-  font-size: 16px;
+  font-size: 15px;
   color: #fbbf24;
 }
 
 .chord-tile-btn span {
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--text-secondary);
+  text-align: center;
 }
 
 .chord-tile-btn.active {
@@ -1841,7 +1910,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 14px;
+  font-size: 13.5px;
   color: #fbbf24;
 }
 
@@ -1891,18 +1960,19 @@
   align-items: center;
   margin-bottom: 10px;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
 }
 
 .chord-play-buttons {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .chord-tip-text {
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--text-secondary);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .muted-x-badge {
@@ -1914,7 +1984,7 @@
 
 .finger-legend-note {
   margin-top: 12px;
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-muted);
 }
 
@@ -1923,15 +1993,15 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 18px;
+  gap: 14px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 
 .scale-selectors-group {
   display: flex;
   align-items: flex-end;
-  gap: 18px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
@@ -1942,13 +2012,14 @@
 }
 
 .root-key-btn {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 9px;
   border: 1px solid var(--border-subtle);
   background: var(--bg-card);
   color: #fff;
   font-weight: 700;
+  font-size: 12.5px;
   cursor: pointer;
 }
 
@@ -1960,24 +2031,25 @@
 
 .scale-play-actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .scale-summary-banner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 18px;
+  gap: 14px;
+  padding: 14px 16px;
   border-radius: 14px;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 
 .scale-summary-banner p {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--text-secondary);
   margin-top: 3px;
 }
@@ -1985,16 +2057,16 @@
 .scale-notes-chips {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 .scale-tone-pill {
-  padding: 5px 10px;
+  padding: 4px 9px;
   border-radius: 8px;
   background: rgba(168, 85, 247, 0.18);
   border: 1px solid rgba(168, 85, 247, 0.4);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
 }
 
@@ -2010,7 +2082,7 @@
 .tools-page-grid {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
-  gap: 20px;
+  gap: 18px;
 }
 
 .metronome-studio-card,
@@ -2018,10 +2090,11 @@
   background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  padding: 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
+  min-width: 0;
 }
 
 .card-header-row {
@@ -2031,7 +2104,7 @@
 }
 
 .card-sub-desc {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-secondary);
 }
 
@@ -2039,8 +2112,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 24px;
-  padding: 16px;
+  gap: 20px;
+  padding: 14px;
   background: var(--bg-card);
   border-radius: 16px;
 }
@@ -2062,7 +2135,7 @@
 }
 
 .bpm-number {
-  font-size: 52px;
+  font-size: 48px;
   font-weight: 900;
   color: #fbbf24;
   line-height: 1;
@@ -2070,7 +2143,7 @@
 }
 
 .bpm-unit {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-secondary);
   letter-spacing: 0.1em;
 }
@@ -2083,12 +2156,13 @@
 .beat-leds-row {
   display: flex;
   justify-content: center;
-  gap: 14px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .beat-led-orb {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: var(--bg-card);
   border: 2px solid var(--border-subtle);
@@ -2096,6 +2170,7 @@
   align-items: center;
   justify-content: center;
   font-weight: 800;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
@@ -2122,13 +2197,14 @@
 
 .pill-choice-row {
   display: flex;
-  gap: 8px;
+  gap: 7px;
   flex-wrap: wrap;
 }
 
 .metro-action-buttons {
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 /* Custom Tab Creator */
@@ -2167,26 +2243,28 @@
   background: #090d16;
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 12px 14px;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tab-preview-line {
   display: flex;
   align-items: center;
-  font-size: 13px;
-  line-height: 1.65;
+  font-size: 12.5px;
+  line-height: 1.6;
 }
 
 .tab-line-name {
-  width: 26px;
+  width: 24px;
   font-weight: 800;
+  flex-shrink: 0;
 }
 
 .tab-line-slots {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .tab-slot-cell {
@@ -2210,10 +2288,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   padding: 8px 12px;
   border-radius: 10px;
   background: var(--bg-card);
-  font-size: 13px;
+  font-size: 12.5px;
+  flex-wrap: wrap;
 }
 
 .saved-custom-actions {
@@ -2221,12 +2301,357 @@
   gap: 6px;
 }
 
+/* ==========================================================
+   8. TABLET & MOBILE RESPONSIVE BREAKPOINTS (<= 1080px, <= 768px, <= 480px)
+   ========================================================== */
 @media (max-width: 1080px) {
+  /* Hide desktop center nav tabs and show Native Bottom Tab Bar */
+  .desktop-only-nav {
+    display: none !important;
+  }
+
+  .mobile-bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(11, 15, 25, 0.96);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(14px);
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+    z-index: 90;
+  }
+
+  .mobile-nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 2px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 10.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .mobile-nav-btn span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-nav-btn.active {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.12);
+  }
+
+  /* Leave room at bottom for fixed mobile bottom nav + corner timestamp */
+  .studio-main-content {
+    padding: 12px 14px 92px;
+  }
+
+  .corner-timestamp {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    right: 8px;
+  }
+
+  /* Stack grids cleanly on Tablet & Mobile */
   .auth-container,
   .highway-layout,
   .tuner-studio-grid,
   .chords-lab-grid,
   .tools-page-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* On Auth Screen: Put the Login/Create Account Form FIRST on Mobile & Tablet */
+  .auth-card {
+    order: -1;
+  }
+
+  /* On Highway: Use collapsible song picker bar so the Highway stays above the fold */
+  .mobile-song-picker-bar {
+    display: block;
+  }
+
+  .mobile-song-toggle-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 11px 15px;
+    border-radius: 14px;
+    background: var(--bg-panel);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .mobile-song-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .mobile-song-picker-label {
+    display: block;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #fbbf24;
+  }
+
+  .mobile-song-picker-current {
+    display: block;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .song-sidebar {
+    display: none;
+    max-height: 320px;
+  }
+
+  .song-sidebar.mobile-open {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Prevent iOS Safari zoom on input focus */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  .auth-wrapper {
+    padding: 14px 14px 44px;
+  }
+
+  .auth-card {
+    padding: 20px 16px;
+  }
+
+  .brand-title {
+    font-size: 28px;
+  }
+
+  .form-row-2,
+  .form-row-3 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Compact Single-Row Top Studio Navbar on Mobile */
+  .studio-navbar {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .navbar-badge,
+  .user-stats-pills,
+  .user-name-label {
+    display: none;
+  }
+
+  .navbar-title {
+    font-size: 15px;
+  }
+
+  .navbar-logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tone-selector-pill {
+    padding: 4px 8px;
+  }
+
+  .tone-selector-pill select {
+    font-size: 12px !important;
+    max-width: 112px;
+  }
+
+  .nav-mic-pill {
+    padding: 5px 9px;
+    font-size: 11.5px;
+  }
+
+  .lang-toggle-btn.compact {
+    padding: 5px 9px;
+    font-size: 11.5px;
+  }
+
+  /* Highway HUD & Transport on Mobile */
+  .highway-hud-bar {
+    padding: 11px 12px;
+    gap: 10px;
+  }
+
+  .song-active-info h2 {
+    font-size: 16px;
+  }
+
+  .hud-stats-group {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .hud-stat-box {
+    padding: 6px 10px;
+  }
+
+  .hud-value {
+    font-size: 14px;
+  }
+
+  .highway-transport-bar {
+    padding: 10px 12px;
+  }
+
+  .transport-buttons {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .play-btn-primary {
+    grid-column: span 2;
+    padding: 11px;
+    font-size: 14px;
+  }
+
+  .tempo-slider-box {
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 4px;
+  }
+
+  .tempo-slider-box input[type='range'] {
+    flex: 1;
+  }
+
+  /* 6-String Highway Canvas on Mobile */
+  .tab-highway-canvas {
+    height: 256px;
+    border-radius: 14px;
+  }
+
+  .highway-string-lane {
+    height: 36px;
+  }
+
+  .string-lane-badge {
+    margin-left: 5px;
+    padding: 2px 6px 2px 3px;
+    gap: 3px;
+  }
+
+  .string-num-circle {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+
+  .string-note-code {
+    font-size: 11px;
+  }
+
+  .highway-note-gem {
+    min-width: 36px;
+    height: 27px;
+    padding: 0 5px;
+    border-radius: 7px;
+  }
+
+  .gem-fret-number {
+    font-size: 12.5px;
+  }
+
+  .gem-note-sub {
+    font-size: 9px;
+    padding: 0 3px;
+  }
+
+  .waiting-note-banner {
+    font-size: 11px;
+    padding: 5px 10px;
+    top: 6px;
+    right: 6px;
+  }
+
+  .keyboard-shortcut-pill {
+    display: none;
+  }
+
+  /* Pro Tuner on Mobile */
+  .module-header-banner {
+    padding: 14px;
+  }
+
+  .module-header-banner h2 {
+    font-size: 18px;
+  }
+
+  .tuner-header-actions,
+  .tuning-select-wrapper,
+  .mic-cta-btn {
+    width: 100%;
+  }
+
+  .tuning-select-wrapper select {
+    width: 100%;
+  }
+
+  .tuner-gauge-card,
+  .tuner-headstock-card,
+  .chords-list-panel,
+  .chord-inspector-card,
+  .scales-explorer-panel,
+  .metronome-studio-card,
+  .tab-creator-card {
+    padding: 14px;
+  }
+
+  .detected-note-main {
+    font-size: 42px;
+  }
+
+  .tuner-big-note {
+    padding: 14px 24px;
+    width: 100%;
+  }
+
+  .string-peg-row {
+    padding: 8px 10px;
+  }
+
+  .play-ref-btn span {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .mic-pill-text {
+    display: none;
+  }
+
+  .mobile-nav-btn {
+    font-size: 9.5px;
   }
 }
